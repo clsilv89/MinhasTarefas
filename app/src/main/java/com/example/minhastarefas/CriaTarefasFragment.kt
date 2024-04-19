@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
+import androidx.navigation.fragment.findNavController
 import com.example.minhastarefas.databinding.FragmentCriaTarefasBinding
 
 class CriaTarefasFragment : Fragment() {
@@ -30,7 +31,14 @@ class CriaTarefasFragment : Fragment() {
         }
 
         binding.botaoCriaTarefa.setOnClickListener {
-            tarefa(descricaoTarefa)
+            if (descricaoTarefa.isNotEmpty()) {
+                (activity as MainActivity).getTarefa(descricaoTarefa)
+            } else {
+                binding.textInputLayoutTarefa.error = "Descrição não pode estar vazia."
+            }
+
+//            tarefa(descricaoTarefa)
+//            findNavController().navigateUp()
         }
 
         return binding.root

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.minhastarefas.databinding.FragmentListaTarefasBinding
 
 class ListaTarefasFragment : Fragment() {
@@ -23,7 +24,7 @@ class ListaTarefasFragment : Fragment() {
         binding = FragmentListaTarefasBinding.inflate(inflater)
 
         binding.botaoCriaTarefa.setOnClickListener {
-            criarNovaTarefa.invoke()
+            findNavController().navigate(R.id.action_listaTarefasFragment_to_criaTarefaFragment)
         }
 
         return binding.root
