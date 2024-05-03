@@ -1,5 +1,7 @@
 package com.example.minhastarefas
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
@@ -8,17 +10,26 @@ import androidx.navigation.NavHostController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.minhastarefas.databinding.ActivityMainBinding
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import java.util.prefs.Preferences
 
 class MainActivity : AppCompatActivity() {
+
+    private val gson = GsonBuilder().create()
+    private lateinit var sharedPrefs: SharedPreferences
 
     private lateinit var binding: ActivityMainBinding
     private var navController: NavController? = null
     private val listaTarefas = arrayListOf<Tarefa>()
+    val adapter = TarefasAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+        sharedPrefs = this.getPreferences(Context.MODE_PRIVATE)
+
         setContentView(binding.root)
 
         val navHostFragment = supportFragmentManager.findFragmentById(binding.navHostFragment.id)
@@ -37,6 +48,18 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+
+        recuperaLista("TAREFAS")
+
+        adapter.submitList(listaTarefas)
+        adapter.onClick = {
+            val index = listaTarefas.indexOf(it)
+
+            listaTarefas[index].apply {
+                this.completa = !this.completa
+            }
+            salvarLista(listaTarefas)
+        }
     }
 
 //    override fun onBackPressed() {
@@ -53,7 +76,27 @@ class MainActivity : AppCompatActivity() {
             completa = false
         )
         listaTarefas.add(tarefa)
+        salvarLista(listaTarefas)
         navController?.navigateUp()
+    }
+
+    private fun recuperaLista(chave: String) {
+        val jsonString = sharedPrefs.getString(chave, "[]")
+        val lista = gson.fromJson<Array<Tarefa>>(
+            jsonString,
+            Array<Tarefa>::class.java
+        )
+
+        listaTarefas.addAll(lista)
+    }
+
+    private fun salvarLista(lista: List<Tarefa>) {
+        val jsonString = gson.toJson(lista)
+
+        sharedPrefs
+            .edit()
+            .putString("TAREFAS", jsonString)
+            .apply()
     }
 
 //    private fun abrirTelaListaTarefas() {
@@ -87,9 +130,9 @@ class MainActivity : AppCompatActivity() {
     private fun categorizaTarefa(tarefa: String): List<String> {
         val wordArray = tarefa.trim().split("\\s+".toRegex())
         val hashTagArray = arrayListOf<String>()
-        for(i in wordArray) {
-            if(i.contains("#")) {
-                if(!hashTagArray.contains(i)) {
+        for (i in wordArray) {
+            if (i.contains("#")) {
+                if (!hashTagArray.contains(i)) {
                     hashTagArray.add(i)
                 }
             }
