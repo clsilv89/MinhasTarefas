@@ -1,4 +1,4 @@
-package com.example.minhastarefas
+package com.example.minhastarefas.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.minhastarefas.R
 import com.example.minhastarefas.databinding.FragmentListaTarefasBinding
 
 class ListaTarefasFragment : Fragment() {
 
     private lateinit var binding: FragmentListaTarefasBinding
     private lateinit var adapter: TarefasAdapter
+    private lateinit var categoriasAdapter: CategoriasAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +27,7 @@ class ListaTarefasFragment : Fragment() {
     ): View? {
         binding = FragmentListaTarefasBinding.inflate(inflater)
         adapter = (activity as MainActivity).adapter
+        categoriasAdapter = (activity as MainActivity).categoriasAdapter
 
         binding.botaoCriaTarefa.setOnClickListener {
             findNavController().navigate(R.id.action_listaTarefasFragment_to_criaTarefaFragment)
@@ -38,6 +41,9 @@ class ListaTarefasFragment : Fragment() {
     private fun configuraRecyclewView() {
         binding.recyclewViewTarefas.adapter = adapter
         binding.recyclewViewTarefas.layoutManager = LinearLayoutManager(activity)
+        binding.recyclewViewCategorias.adapter = categoriasAdapter
+        binding.recyclewViewCategorias.layoutManager =
+            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
     }
 
     companion object {

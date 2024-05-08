@@ -1,10 +1,11 @@
-package com.example.minhastarefas
+package com.example.minhastarefas.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.minhastarefas.model.Tarefa
 import com.example.minhastarefas.databinding.ItemLayoutTarefaBinding
 import com.example.minhastarefas.databinding.ItemLayoutTarefaCompletaBinding
 

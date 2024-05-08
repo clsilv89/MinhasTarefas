@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/listarTarefas"
         tools:layout="@layout/fragment_lista_tarefas"
-        android:name="com.example.minhastarefas.ListaTarefasFragment"
+        android:name="com.example.minhastarefas.view.ListaTarefasFragment"
         android:label="Minhas tarefas">
         <action
             android:id="@+id/action_listaTarefasFragment_to_criaTarefaFragment"
@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/criarTarefa"
         tools:layout="@layout/fragment_cria_tarefas"
-        android:name="com.example.minhastarefas.CriaTarefasFragment"
+        android:name="com.example.minhastarefas.view.CriaTarefasFragment"
         android:label="Criar nova tarefa" />
 
 </navigation>
