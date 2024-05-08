@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
         val wordArray = tarefa.trim().split("\\s+".toRegex())
         for (i in wordArray) {
             if (i.contains("#")) {
-                if (!listaCategorias.contains(Categoria(i))) {
+                if (viewModel.categorias.value?.contains(Categoria(i)) != false) {
                     viewModel.addCategoria(Categoria(i))
                 }
             }
